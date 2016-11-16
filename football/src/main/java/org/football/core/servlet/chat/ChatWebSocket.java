@@ -11,16 +11,15 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import javax.websocket.server.ServerEndpoint;
+
+import org.football.core.util.HTMLFilter;
 
 /**
  * @author KYJ
@@ -43,54 +42,40 @@ public class ChatWebSocket {
 	 */
 	@OnOpen
 	public void handleOpen(Session conn, EndpointConfig EndpointConfig) {
-		System.out.println("client is now connected...");
-		System.out.println(conn);
 		this.conn = conn;
 		connections.add(this);
-		//		conn.addMessageHandler(String.class, new MessageHandler.Whole<String>() {
-		//			@Override
-		//			public void onMessage(String message) {
-		//				System.out.println("Received message: " + message);
-		//			}
-		//		});
-
-		//		conn.addMessageHandler(new MessageHandler.Whole<String>() {
-		//			@Override
-		//			public void onMessage(String message) {
-		//				System.out.println("Received message: " + message);
-		//			}
-		//		});
 	}
 
 	/**
 	 * 웹 소켓으로부터 메시지가 오면 호출되는 이벤트
+	 * 
 	 * @param message
 	 * @return
 	 */
 	@OnMessage
 	public void handleMessage(Session session, String message) {
-		System.out.println("receive from client : " + message);
-		broadcast("send to client : " + message);
-//		
-//		if (message != null) {
-//			WebSocketContainer container = session.getContainer();
-//
-//			Set<Session> openSessions = session.getOpenSessions();
-//
-//			session.getOpenSessions().forEach(s -> {
-//				//				if (s.isOpen()) {
-//				try {
-//					Basic basicRemote = s.getBasicRemote();
-//					String x = "send to client : " + message;
-//					System.out.println(x);
-//					basicRemote.sendText(x);
-//
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//				//				}
-//			});
-//		}
+		String filteredMessage = String.format("%s: %s", "", HTMLFilter.filter(message.toString()));
+		broadcast(filteredMessage);
+		//
+		// if (message != null) {
+		// WebSocketContainer container = session.getContainer();
+		//
+		// Set<Session> openSessions = session.getOpenSessions();
+		//
+		// session.getOpenSessions().forEach(s -> {
+		// // if (s.isOpen()) {
+		// try {
+		// Basic basicRemote = s.getBasicRemote();
+		// String x = "send to client : " + message;
+		// System.out.println(x);
+		// basicRemote.sendText(x);
+		//
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// // }
+		// });
+		// }
 
 	}
 
@@ -98,17 +83,22 @@ public class ChatWebSocket {
 	 * 웹 소켓이 닫히면 호출되는 이벤트
 	 */
 	@OnClose
-	public void handleClose(Session session, CloseReason reason) {
-		System.out.println("client is now disconnected...");
+	public void handleClose() {
 		connections.remove(this);
+
+		String message = "client is now disconnected...";
+		broadcast(message);
+
 	}
 
 	/**
 	 * 웹 소켓이 에러가 나면 호출되는 이벤트
+	 * 
 	 * @param t
 	 */
 	@OnError
-	public void handleError(Session session, Throwable t) {
+	public void onError(Throwable t) {
+		connections.remove(this);
 		t.printStackTrace();
 	}
 
@@ -116,7 +106,9 @@ public class ChatWebSocket {
 		for (ChatWebSocket client : connections) {
 			try {
 				synchronized (client) {
-					client.conn.getBasicRemote().sendText(msg);
+					Session conn = client.conn;
+					if (conn.isOpen())
+						conn.getBasicRemote().sendText(msg);
 				}
 			} catch (IOException e) {
 

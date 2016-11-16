@@ -14,6 +14,7 @@
 		<jstl.version>1.2</jstl.version>
 		<!-- 아래 버젼 사용에 문제가 있는경우 3.0.1 버젼 사용할것. -->
 		<servlet.version>3.1.0</servlet.version>
+		<tomcat.lib.version>9.0.0.M11</tomcat.lib.version>
 	</properties>
 
 
@@ -57,6 +58,20 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>${jsp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-util</artifactId>
+			<version>${tomcat.lib.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<version>${tomcat.lib.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
