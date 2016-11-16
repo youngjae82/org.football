@@ -12,6 +12,7 @@
 		<java.version>1.8</java.version>
 		<jsp.version>2.2</jsp.version>
 		<jstl.version>1.2</jstl.version>
+		<!-- 아래 버젼 사용에 문제가 있는경우 3.0.1 버젼 사용할것. -->
 		<servlet.version>3.1.0</servlet.version>
 	</properties>
 
