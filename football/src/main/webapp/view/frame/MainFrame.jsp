@@ -69,6 +69,7 @@ nav ul {
 <script type="text/javascript">
 	
 	function onload(){
+		
 		$(".menu").on("click", function(e){
 			console.log('clicked');
 			

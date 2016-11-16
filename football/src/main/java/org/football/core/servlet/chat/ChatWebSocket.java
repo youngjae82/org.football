@@ -22,6 +22,8 @@ import javax.websocket.server.ServerEndpoint;
 import org.football.core.util.HTMLFilter;
 
 /**
+ * 
+ *  웹 소켓 서버
  * @author KYJ
  *
  */
