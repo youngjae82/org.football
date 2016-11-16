@@ -88,6 +88,10 @@ nav ul {
 			{
 				document.getElementById('aside-container').innerHTML  = "<iframe id='iframe' src='/view/cont/GameResult.jsp' scrolling='no' framebodrder='1' height='1'> </iframe>";	
 			}
+			else if(this.id="liChat")
+			{
+				document.getElementById('aside-container').innerHTML  = "<iframe id='iframe' src='/view/cont/ChatView.jsp' scrolling='no' framebodrder='1' height='1'> </iframe>";
+			}
 			
 		});
 	}
@@ -112,6 +116,7 @@ nav ul {
 				<li class="menu" id="liWinPoint" style="CURSOR:pointer">승률</li>
 				<li class="menu" id="liScore" style="CURSOR:pointer" >전적</li>
 				<li class="menu" id="liGameResult" style="CURSOR:pointer">결과</li>
+				<li class="menu" id="liChat" style="CURSOR:pointer">채팅</li>
 			</ul>
 		</nav>
 
