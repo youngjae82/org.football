@@ -24,6 +24,7 @@ package org.football.core.util;
  */
 public final class HTMLFilter {
 
+	private HTMLFilter(){}
 	/**
 	 * Filter the specified message string for characters that are sensitive in
 	 * HTML. This avoids potential attacks caused by including JavaScript codes

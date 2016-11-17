@@ -32,7 +32,7 @@ import java.util.StringTokenizer;
  * vulnerability. In such instances the vulnerability is the failure to remove
  * the examples web application.
  */
-public class CookieFilter {
+public final class CookieFilter {
 
     private static final String OBFUSCATED = "[obfuscated]";
 
