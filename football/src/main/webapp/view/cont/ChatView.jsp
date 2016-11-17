@@ -6,6 +6,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/script/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		//키 이벤트 처리.
+		$(textMessage).on('keypress', function(e){
+			if(e.which == 13)
+			{
+				sendMessage();
+				//아래 코드가 없는경우 UI가 갱신됨.
+				e.preventDefault();
+			}
+		});
+	});
+	
+</script>
+
 </head>
 <body>
 	<form>
@@ -50,8 +67,6 @@
 			//웹소켓으로 textMessage객체의 값을 보낸다.
 
 			if (message.value) {
-				messageTextArea.value += "Send to Server => " + message.value
-						+ "\n";
 				webSocket.send(message.value);
 			}
 
